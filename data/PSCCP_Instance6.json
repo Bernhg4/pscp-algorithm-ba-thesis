@@ -1,0 +1,1177 @@
+{
+  "NumCarrierTypes": 10,
+  "NumColors": 4,
+  "HistoryColor": 0,
+  "Demands": [
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 2,
+      "DueDate": 7
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 4,
+      "Color": 2,
+      "DueDate": 7
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 4,
+      "Color": 1,
+      "DueDate": 7
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 2,
+      "DueDate": 14
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 4,
+      "Color": 2,
+      "DueDate": 14
+    },
+    {
+      "Quantity": 2,
+      "CarrierType": 4,
+      "Color": 1,
+      "DueDate": 14
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 1,
+      "DueDate": 14
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 2,
+      "DueDate": 21
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 4,
+      "Color": 2,
+      "DueDate": 21
+    },
+    {
+      "Quantity": 2,
+      "CarrierType": 4,
+      "Color": 1,
+      "DueDate": 21
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 1,
+      "DueDate": 21
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 2,
+      "DueDate": 28
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 4,
+      "Color": 2,
+      "DueDate": 28
+    },
+    {
+      "Quantity": 2,
+      "CarrierType": 4,
+      "Color": 1,
+      "DueDate": 28
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 1,
+      "DueDate": 28
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 2,
+      "DueDate": 35
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 4,
+      "Color": 2,
+      "DueDate": 35
+    },
+    {
+      "Quantity": 2,
+      "CarrierType": 4,
+      "Color": 1,
+      "DueDate": 35
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 1,
+      "DueDate": 35
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 2,
+      "DueDate": 42
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 4,
+      "Color": 2,
+      "DueDate": 42
+    },
+    {
+      "Quantity": 2,
+      "CarrierType": 4,
+      "Color": 1,
+      "DueDate": 42
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 1,
+      "DueDate": 42
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 2,
+      "DueDate": 49
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 4,
+      "Color": 2,
+      "DueDate": 49
+    },
+    {
+      "Quantity": 2,
+      "CarrierType": 4,
+      "Color": 1,
+      "DueDate": 49
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 1,
+      "DueDate": 49
+    }
+  ],
+  "Rounds": [
+    {
+      "ScheduledCarriers": [
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3
+      ]
+    }
+  ]
+}
