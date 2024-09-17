@@ -1,16 +1,30 @@
 import json
-from models.baseModels import from_json
+from source.jsonIO.jsonRW import to_json, from_json
+from source.models.baseModels import RoundSolution
 
+
+#function for reading a json file
 def load_json_file(filepath):
     file = open(filepath, 'r')
     return json.load(file)
 
 if __name__ == "__main__":
-    # Load the JSON data from a file
+    #load the toyInstance.json
     data = load_json_file('data/ToyInstance - Ohne Kommentare.json')
 
-    # Convert the JSON data into the DataModel class
+    #converting the json to the data structure
     data_model = from_json(data)
 
-    # Print the DataModel (calls the __str__ method)
+    #printing the model like in the problem description
     print(data_model)
+
+    rounds = [
+        RoundSolution([1, 1, 1, 3]),
+        RoundSolution([2, 2, 2, 3, 3]),
+        RoundSolution([1, 1, 2, 3, 2])
+    ]
+
+    json_output = to_json(rounds)
+
+    # Print the JSON output
+    print(json_output)
