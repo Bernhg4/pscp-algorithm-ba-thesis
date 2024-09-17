@@ -1,6 +1,7 @@
 import json
 from source.jsonIO.jsonRW import to_json, from_json
 from source.models.baseModels import RoundSolution
+from source.solvers.randomSolution import generate_random_solution
 
 
 #function for reading a json file
@@ -18,11 +19,7 @@ if __name__ == "__main__":
     #printing the model like in the problem description
     print(data_model)
 
-    rounds = [
-        RoundSolution([1, 1, 1, 3]),
-        RoundSolution([2, 2, 2, 3, 3]),
-        RoundSolution([1, 1, 2, 3, 2])
-    ]
+    rounds = generate_random_solution(data_model)
 
     json_output = to_json(rounds)
 

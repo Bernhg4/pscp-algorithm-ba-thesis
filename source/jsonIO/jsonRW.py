@@ -1,4 +1,5 @@
 import json
+from xml.etree.ElementTree import indent
 
 from source.models.baseModels import Demand, RoundInstance, DataModel
 
@@ -20,7 +21,7 @@ def to_json(round_solutions):
     rounds_data = {"Rounds": [round_solution.to_dict() for round_solution in round_solutions]}
 
     # convert to json
-    json_string = json.dumps(rounds_data)
+    json_string = json.dumps(rounds_data, indent=1)
 
     # writing the results to the file
     with open('data/ToySolution.json', 'w') as f:
