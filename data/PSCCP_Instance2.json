@@ -1,0 +1,164 @@
+{
+  "NumCarrierTypes": 7,
+  "NumColors": 6,
+  "HistoryColor": 0,
+  "Demands": [
+    {
+      "Quantity": 1,
+      "CarrierType": 5,
+      "Color": 3,
+      "DueDate": 7
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 5,
+      "Color": 4,
+      "DueDate": 7
+    }
+  ],
+  "Rounds": [
+    {
+      "ScheduledCarriers": [
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        3,
+        3
+      ]
+    }
+  ]
+}

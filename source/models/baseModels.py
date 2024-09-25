@@ -1,4 +1,3 @@
-import json
 
 class Demand:
     def __init__(self, quantity, carrier_type, color, due_date):

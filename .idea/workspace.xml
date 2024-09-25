@@ -4,12 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcdee980-73e2-465e-987d-058a595ade08" name="Changes" comment="Refactoring and Implementation of the JSON Outwriting">
+    <list default="true" id="dcdee980-73e2-465e-987d-058a595ade08" name="Changes" comment="Refactoring and Implementing simple random solution generator">
+      <change afterPath="$PROJECT_DIR$/data/PSCCP_Instance1.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/PSCCP_Instance2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/PSCCP_Instance3.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/PSCCP_Instance4.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/PSCCP_Instance5.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/PSCCP_Instance7.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/solution_validator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/ToyInstance - Ohne Kommentare.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/ToySolution - Ohne Kommentare.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/ToySolution.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/ToySolution.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/jsonIO/jsonRW.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/jsonIO/jsonRW.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/solvers/randomSolution.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/solvers/randomSolution.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,26 +62,54 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;JsonReader&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/bernh/OneDrive/Uni/Bachelorarbeit/Project/pscpAlgorithm/source/main.py&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.SolutionValidator.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "JsonReader",
+    "last_opened_file_path": "C:/Users/bernh/OneDrive/Uni/Bachelorarbeit/Project/pscpAlgorithm/data",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\bernh\OneDrive\Uni\Bachelorarbeit\Project\pscpAlgorithm\data" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\bernh\OneDrive\Uni\Bachelorarbeit\Project\pscpAlgorithm\data" />
+    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="SolutionValidator" type="PythonConfigurationType" factoryName="Python">
+      <module name="pscpAlgorithm" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12 (pscpAlgorithm)" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\bernh\OneDrive\Uni\Bachelorarbeit\Project\pscpAlgorithm\data" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/solution_validator.py" />
+      <option name="PARAMETERS" value="ToyInstance_ok.json ToySolution_ok.json" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="pscpAlgorithm" />
       <option name="ENV_FILES" value="" />
@@ -98,6 +134,10 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.SolutionValidator" />
+    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -117,7 +157,8 @@
       <updated>1726236146847</updated>
       <workItem from="1726236148243" duration="7876000" />
       <workItem from="1726494132571" duration="6607000" />
-      <workItem from="1726589069577" duration="1917000" />
+      <workItem from="1726589069577" duration="2374000" />
+      <workItem from="1727177152064" duration="5652000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <option name="closed" value="true" />
@@ -143,7 +184,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726589317735</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Refactoring and Implementing simple random solution generator">
+      <option name="closed" value="true" />
+      <created>1726591207030</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1726591207030</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -164,9 +213,11 @@
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="Implementation of Json Input reading and String output" />
     <MESSAGE value="Refactoring and Implementation of the JSON Outwriting" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactoring and Implementation of the JSON Outwriting" />
+    <MESSAGE value="Refactoring and Implementing simple random solution generator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring and Implementing simple random solution generator" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pscpAlgorithm$main.coverage" NAME="main Coverage Results" MODIFIED="1726590872198" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/pscpAlgorithm$SolutionValidator.coverage" NAME="SolutionValidator Coverage Results" MODIFIED="1727180365532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\Users\bernh\OneDrive\Uni\Bachelorarbeit\Project\pscpAlgorithm\data" />
+    <SUITE FILE_PATH="coverage/pscpAlgorithm$main.coverage" NAME="main Coverage Results" MODIFIED="1727180373926" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

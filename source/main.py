@@ -1,6 +1,5 @@
 import json
 from source.jsonIO.jsonRW import to_json, from_json
-from source.models.baseModels import RoundSolution
 from source.solvers.randomSolution import generate_random_solution
 
 
@@ -23,5 +22,5 @@ if __name__ == "__main__":
 
     json_output = to_json(rounds)
 
-    # Print the JSON output
+    #print the JSON output
     print(json_output)
