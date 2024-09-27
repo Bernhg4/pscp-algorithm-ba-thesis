@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcdee980-73e2-465e-987d-058a595ade08" name="Changes" comment="Refactoring and Implementing simple random solution generator" />
+    <list default="true" id="dcdee980-73e2-465e-987d-058a595ade08" name="Changes" comment="Merging JsonReader into dev and adding gitignore">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/solution_validator.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/solution_validator.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,7 +57,7 @@
     "Python.SolutionValidator.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "GivenJsonValidator",
     "last_opened_file_path": "C:/Users/bernh/OneDrive/Uni/Bachelorarbeit/Project/pscpAlgorithm/data",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -68,10 +72,11 @@
       <recent name="C:\Users\bernh\OneDrive\Uni\Bachelorarbeit\Project\pscpAlgorithm\data" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\bernh\OneDrive\Uni\Bachelorarbeit\Project\pscpAlgorithm\source" />
       <recent name="C:\Users\bernh\OneDrive\Uni\Bachelorarbeit\Project\pscpAlgorithm\data" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.SolutionValidator">
     <configuration name="SolutionValidator" type="PythonConfigurationType" factoryName="Python">
       <module name="pscpAlgorithm" />
       <option name="ENV_FILES" value="" />
@@ -87,8 +92,8 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/solution_validator.py" />
-      <option name="PARAMETERS" value="ToyInstance_ok.json ToySolution_ok.json" />
+      <option name="SCRIPT_NAME" value="C:\Users\bernh\OneDrive\Uni\Bachelorarbeit\Project\pscpAlgorithm\source\solution_validator.py" />
+      <option name="PARAMETERS" value="ToyInstance_ok.json ToySolution.json" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -178,7 +183,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726591207030</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Merging JsonReader into dev and adding gitignore">
+      <option name="closed" value="true" />
+      <created>1727442058381</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1727442058381</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,10 +213,11 @@
     <MESSAGE value="Implementation of Json Input reading and String output" />
     <MESSAGE value="Refactoring and Implementation of the JSON Outwriting" />
     <MESSAGE value="Refactoring and Implementing simple random solution generator" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactoring and Implementing simple random solution generator" />
+    <MESSAGE value="Merging JsonReader into dev and adding gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merging JsonReader into dev and adding gitignore" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pscpAlgorithm$SolutionValidator.coverage" NAME="SolutionValidator Coverage Results" MODIFIED="1727180365532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\Users\bernh\OneDrive\Uni\Bachelorarbeit\Project\pscpAlgorithm\data" />
+    <SUITE FILE_PATH="coverage/pscpAlgorithm$SolutionValidator.coverage" NAME="SolutionValidator Coverage Results" MODIFIED="1727442266356" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\Users\bernh\OneDrive\Uni\Bachelorarbeit\Project\pscpAlgorithm\data" />
     <SUITE FILE_PATH="coverage/pscpAlgorithm$main.coverage" NAME="main Coverage Results" MODIFIED="1727180373926" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
