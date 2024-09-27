@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcdee980-73e2-465e-987d-058a595ade08" name="Changes" comment="Refactoring and Implementing simple random solution generator">
-      <change afterPath="$PROJECT_DIR$/data/PSCCP_Instance1.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/PSCCP_Instance2.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/PSCCP_Instance3.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/PSCCP_Instance4.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/PSCCP_Instance5.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/PSCCP_Instance7.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/solution_validator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/ToyInstance - Ohne Kommentare.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/ToySolution - Ohne Kommentare.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/ToySolution.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/ToySolution.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/jsonIO/jsonRW.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/jsonIO/jsonRW.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="dcdee980-73e2-465e-987d-058a595ade08" name="Changes" comment="Refactoring and Implementing simple random solution generator" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -67,7 +53,7 @@
     "Python.SolutionValidator.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "JsonReader",
+    "git-widget-placeholder": "dev",
     "last_opened_file_path": "C:/Users/bernh/OneDrive/Uni/Bachelorarbeit/Project/pscpAlgorithm/data",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
