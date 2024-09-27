@@ -9,7 +9,8 @@ class Demand:
     def __str__(self):
         # Define a letter instead of the number and return it with a color instead of a number
         carrier_letter = chr(self.carrier_type + 64)
-        return f"{self.quantity}x {carrier_letter}[{["Red","Blue","Green"][self.color-1]}] until R{self.due_date}"
+        return f"{self.quantity}x {carrier_letter}[{[1,2,3][self.color-1]}] until R{self.due_date}"
+        #return f"{self.quantity}x {carrier_letter}[{["Red","Blue","Green"][self.color-1]}] until R{self.due_date}"
 
 class RoundInstance:
     def __init__(self, scheduled_carriers):
@@ -25,10 +26,22 @@ class RoundSolution:
 
     def __str__(self):
         # return the rounds as letters instead of numbers
-        return "".join([f"{["Red","Blue","Green"][color-1]}" for color in self.selected_colors])
+        return "".join([f"{[1,2,3][color-1]} " for color in self.selected_colors])
+        #return "".join([f"{["Red","Blue","Green"][color-1]} " for color in self.selected_colors])
 
     def to_dict(self):
         return {"SelectedColors": self.selected_colors}
+
+class Solution:
+    def __init__(self, round_solutions):
+        self.round_solutions = round_solutions
+
+    def __str__(self):
+        rounds_str = "".join([f"[{str(round_sol)}], " for round_sol in self.round_solutions]).rstrip(" ,")
+        return f"Rounds: {rounds_str}"
+
+    def to_dict(self):
+        return {f"Rounds: {self.round_solutions.to_dict()}"}
 
 class DataModel:
     def __init__(self, num_carrier_types, num_colors, history_color, demands, rounds):

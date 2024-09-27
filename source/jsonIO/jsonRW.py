@@ -14,10 +14,10 @@ def from_json(json_data):
         rounds
     )
 
-def to_json(round_solutions):
+def to_json(solution):
 
     # list for the solutions
-    rounds_data = {"Rounds": [round_solution.to_dict() for round_solution in round_solutions]}
+    rounds_data = {"Rounds": [round_solution.to_dict() for round_solution in solution.round_solutions]}
 
     # convert to json
     json_string = json.dumps(rounds_data, indent=1)
