@@ -10,7 +10,7 @@ def load_json_file(filepath):
 
 if __name__ == "__main__":
     #load the toyInstance.json
-    data = load_json_file('data/ToyInstance - Ohne Kommentare.json')
+    data = load_json_file('../data/ToyInstance_ok.json')
 
     #converting the json to the data structure
     data_model = from_json(data)

@@ -23,7 +23,7 @@ def to_json(round_solutions):
     json_string = json.dumps(rounds_data, indent=1)
 
     # writing the results to the file
-    with open('data/ToySolution.json', 'w') as f:
+    with open('../data/ToySolution.json', 'w') as f:
         f.write(json_string)
 
     return json_string
