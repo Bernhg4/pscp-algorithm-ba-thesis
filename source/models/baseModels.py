@@ -9,7 +9,7 @@ class Demand:
     def __str__(self):
         # Define a letter instead of the number and return it with a color instead of a number
         carrier_letter = chr(self.carrier_type + 64)
-        return f"{self.quantity}x {carrier_letter}[{[1,2,3][self.color-1]}] until R{self.due_date}"
+        return f"{self.quantity}x {carrier_letter}[{self.color}] until R{self.due_date}"
         #return f"{self.quantity}x {carrier_letter}[{["Red","Blue","Green"][self.color-1]}] until R{self.due_date}"
 
 class RoundInstance:
@@ -26,7 +26,7 @@ class RoundSolution:
 
     def __str__(self):
         # return the rounds as letters instead of numbers
-        return "".join([f"{[1,2,3][color-1]} " for color in self.selected_colors])
+        return "".join([f"{color} " for color in self.selected_colors])
         #return "".join([f"{["Red","Blue","Green"][color-1]} " for color in self.selected_colors])
 
     def to_dict(self):
