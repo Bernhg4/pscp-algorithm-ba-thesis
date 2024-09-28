@@ -1,6 +1,6 @@
 from random import randint
 
-from source.models.baseModels import RoundSolution, Solution
+from source.models.baseModels import RoundSolution, PSCP_Solution
 
 
 def generate_random_solution(datamodel):
@@ -19,5 +19,5 @@ def generate_random_solution(datamodel):
 
         round_solutions.append(round_solution)
 
-    return Solution([d for d in round_solutions])
+    return PSCP_Solution([d for d in round_solutions])
 

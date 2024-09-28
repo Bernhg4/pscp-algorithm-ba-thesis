@@ -32,7 +32,7 @@ class RoundSolution:
     def to_dict(self):
         return {"SelectedColors": self.selected_colors}
 
-class Solution:
+class PSCP_Solution:
     def __init__(self, round_solutions):
         self.round_solutions = round_solutions
 
@@ -43,7 +43,7 @@ class Solution:
     def to_dict(self):
         return {f"Rounds: {self.round_solutions.to_dict()}"}
 
-class DataModel:
+class PSCP_Instance:
     def __init__(self, num_carrier_types, num_colors, history_color, demands, rounds):
         self.num_carrier_types = num_carrier_types
         self.num_colors = num_colors
