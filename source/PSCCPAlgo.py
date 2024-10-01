@@ -8,7 +8,8 @@ from source.validator.ownSolutionValidator import validate
 
 if __name__ == "__main__":
 
-    instance_file = '../data/PSCCP_Instance7.json'
+    instance_file = '../data/PSCCP_Instance6.json'
+    #instance_file = '../data/MyToyInstance.json'
 
     if len(sys.argv) == 3:
         instance_file = open(sys.argv[1])
@@ -27,11 +28,13 @@ if __name__ == "__main__":
     demand_sol = demands_first(toy_instance)
     demand_old_sol = demands_first(toy_instance,True)
     demand_old_prior_sol = demands_first(toy_instance,True, True)
+    demand_old_prior_due_sol = demands_first(toy_instance,True, True,True)
 
     write_json_file(solution_to_json(random_sol), instance_file.replace('.json','_random_sol.json'))
     write_json_file(solution_to_json(demand_sol), instance_file.replace('.json','_demand_sol.json'))
     write_json_file(solution_to_json(demand_old_sol), instance_file.replace('.json','_demand_old_sol.json'))
     write_json_file(solution_to_json(demand_old_prior_sol), instance_file.replace('.json','_demand_old_prior_sol.json'))
+    write_json_file(solution_to_json(demand_old_prior_due_sol), instance_file.replace('.json','_demand_old_prior_due_sol.json'))
 
     print("Random Solution:")
     validate(toy_instance,random_sol)
@@ -42,5 +45,8 @@ if __name__ == "__main__":
     print("\nDemands first with old color solution:")
     validate(toy_instance, demand_old_sol)
 
-    print("\nDemands first with old color and prioritization solution:")
+    print("\nDemands first with old color and prioritization color solution:")
     validate(toy_instance, demand_old_prior_sol)
+
+    print("\nDemands first with old color and prioritization color & due_date solution:")
+    validate(toy_instance, demand_old_prior_due_sol)

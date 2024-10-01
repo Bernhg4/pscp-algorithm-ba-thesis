@@ -1,0 +1,71 @@
+{
+  "NumCarrierTypes": 3,
+  "NumColors": 3,
+  "HistoryColor": 1,
+  "Demands": [
+    {
+      "Quantity": 4,
+      "CarrierType": 1,
+      "Color": 1,
+      "DueDate": 3
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 1,
+      "Color": 2,
+      "DueDate": 3
+    },
+    {
+      "Quantity": 4,
+      "CarrierType": 2,
+      "Color": 3,
+      "DueDate": 3
+    },
+    {
+      "Quantity": 2,
+      "CarrierType": 3,
+      "Color": 2,
+      "DueDate": 2
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 1,
+      "DueDate": 2
+    },
+    {
+      "Quantity": 1,
+      "CarrierType": 3,
+      "Color": 2,
+      "DueDate": 3
+    }
+  ],
+  "Rounds": [
+    {
+      "ScheduledCarriers": [
+        1,
+        1,
+        1,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        2,
+        2,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "ScheduledCarriers": [
+        1,
+        1,
+        2,
+        3,
+        2
+      ]
+    }
+  ]
+}
