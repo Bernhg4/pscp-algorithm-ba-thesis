@@ -4,12 +4,12 @@ import sys
 from source.jsonIO.jsonRW import solution_to_json, instance_from_json, solution_from_json, load_json_file, \
     write_json_file
 from source.models.baseModels import PSCP_Solution
-from source.solvers.solutionGenerators import random_solution, demands_first
+from source.solvers.solutionGenerators import random_solution, demands_first, demands_reverse
 from source.validator.ownSolutionValidator import validate
 
 if __name__ == "__main__":
 
-    instance_file = '../data/PSCCP_Instance6.json'
+    instance_file = '../data/PSCCP_Instance7.json'
     #instance_file = '../data/MyToyInstance.json'
 
     if len(sys.argv) == 3:
@@ -27,6 +27,8 @@ if __name__ == "__main__":
 
     random_sol = random_solution(toy_instance)
     demand_sol = demands_first(toy_instance)
+    reverse_sol = demands_reverse(toy_instance)
+
     demand_old_sol = demands_first(toy_instance,True)
     demand_old_prior_sol = demands_first(toy_instance,True, True)
     demand_old_prior_due_sol = demands_first(toy_instance,True, True,True)
@@ -36,6 +38,7 @@ if __name__ == "__main__":
     write_json_file(solution_to_json(demand_old_sol), instance_file.replace('.json','_demand_old_sol.json'))
     write_json_file(solution_to_json(demand_old_prior_sol), instance_file.replace('.json','_demand_old_prior_sol.json'))
     write_json_file(solution_to_json(demand_old_prior_due_sol), instance_file.replace('.json','_demand_old_prior_due_sol.json'))
+    write_json_file(solution_to_json(reverse_sol), instance_file.replace('.json','_reverse_sol.json'))
 
     print("Random Solution:")
     validate(toy_instance,random_sol)
@@ -46,8 +49,13 @@ if __name__ == "__main__":
     print("\nDemands first with old color solution:")
     validate(toy_instance, demand_old_sol)
 
+    print("\nReverse demands solution:")
+    validate(toy_instance, reverse_sol)
+
     print("\nDemands first with old color and prioritization color solution:")
     validate(toy_instance, demand_old_prior_sol)
 
     print("\nDemands first with old color and prioritization color & due_date solution:")
     validate(toy_instance, demand_old_prior_due_sol)
+
+
