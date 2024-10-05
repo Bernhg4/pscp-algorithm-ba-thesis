@@ -3,6 +3,7 @@ import sys
 
 from source.jsonIO.jsonRW import solution_to_json, instance_from_json, solution_from_json, load_json_file, \
     write_json_file
+from source.models.baseModels import PSCP_Solution
 from source.solvers.solutionGenerators import random_solution, demands_first
 from source.validator.ownSolutionValidator import validate
 
