@@ -12,8 +12,8 @@ def gen_small_solution1():
 def gen_medium_solution1():
 
     rs_1 = RoundSolution([1, 1, 2, 1, 1, 2, 2])
-    rs_2 = RoundSolution([1, 1, 2, 2, 1, 3, 1, 3, 3])
-    rs_3 = RoundSolution([1, 1, 2, 1, 2, 2, 1, 1, 1])
+    rs_2 = RoundSolution([1, 1, 2, 2, 1, 3, 3, 3, 1])
+    rs_3 = RoundSolution([1, 2, 1, 1, 2, 2, 1, 2, 2])
 
     round_solutions = [rs_1, rs_2, rs_3]
 
