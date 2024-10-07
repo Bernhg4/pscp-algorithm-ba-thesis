@@ -78,7 +78,6 @@ def demands_reverse(input_instance):
     for demand in input_instance.demands:
         for _ in range(demand.quantity):  # Repeat for the quantity
             all_demands.append((demand.carrier_type, demand.color, demand.due_date))  # Append each tuple
-    #all_demands = sorted(all_demands, key=lambda d: d[2],reverse=True)
 
     # loop over each carrier of each round
     temp_col = -1

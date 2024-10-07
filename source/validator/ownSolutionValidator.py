@@ -34,11 +34,11 @@ def validate(instance, solution):
                 last_color = color
 
     if demand_violations == 0:
-        print("Solution is feasible!")
+        print("Solution is feasible")
     else:
         print("Solution is infeasible!")
         print(f"Demand violations: {demand_violations}")
-    print(f"Color changes: {color_changes}")
+    print(f"Total number of color changes used in the solution: {color_changes}")
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:

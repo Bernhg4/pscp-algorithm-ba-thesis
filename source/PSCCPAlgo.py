@@ -2,9 +2,10 @@ import json
 import sys
 
 from source.jsonIO.jsonRW import solution_to_json, instance_from_json, solution_from_json, load_json_file, \
-    write_json_file
+    write_json_file, instance_to_json
 from source.models.baseModels import PSCP_Solution
 from source.solvers.solutionGenerators import random_solution, demands_first, demands_reverse
+from source.solvers.solutionImprovers import local_reorder
 from source.validator.ownSolutionValidator import validate
 
 if __name__ == "__main__":
@@ -33,12 +34,12 @@ if __name__ == "__main__":
     demand_old_prior_sol = demands_first(toy_instance,True, True)
     demand_old_prior_due_sol = demands_first(toy_instance,True, True,True)
 
-    write_json_file(solution_to_json(random_sol), instance_file.replace('.json','_random_sol.json'))
-    write_json_file(solution_to_json(demand_sol), instance_file.replace('.json','_demand_sol.json'))
-    write_json_file(solution_to_json(demand_old_sol), instance_file.replace('.json','_demand_old_sol.json'))
-    write_json_file(solution_to_json(demand_old_prior_sol), instance_file.replace('.json','_demand_old_prior_sol.json'))
-    write_json_file(solution_to_json(demand_old_prior_due_sol), instance_file.replace('.json','_demand_old_prior_due_sol.json'))
-    write_json_file(solution_to_json(reverse_sol), instance_file.replace('.json','_reverse_sol.json'))
+    write_json_file(solution_to_json(random_sol),instance_file.replace('.json','_random_sol.json'))
+    write_json_file(solution_to_json(demand_sol),instance_file.replace('.json','_demand_sol.json'))
+    write_json_file(solution_to_json(demand_old_sol),instance_file.replace('.json','_demand_old_sol.json'))
+    write_json_file(solution_to_json(demand_old_prior_sol),instance_file.replace('.json','_demand_old_prior_sol.json'))
+    write_json_file(solution_to_json(demand_old_prior_due_sol),instance_file.replace('.json','_demand_old_prior_due_sol.json'))
+    write_json_file(solution_to_json(reverse_sol),instance_file.replace('.json','_reverse_sol.json'))
 
     print("Random Solution:")
     validate(toy_instance,random_sol)

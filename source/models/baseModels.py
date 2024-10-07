@@ -12,6 +12,15 @@ class Demand:
         return f"{self.quantity}x {carrier_letter}[{self.color}] until R{self.due_date}"
         #return f"{self.quantity}x {carrier_letter}[{["Red","Blue","Green"][self.color-1]}] until R{self.due_date}"
 
+    def to_dict(self):
+        return {
+            "Quantity": self.quantity,
+            "CarrierType": self.carrier_type,
+            "Color": self.color,
+            "DueDate": self.due_date
+        }
+
+
 class RoundInstance:
     def __init__(self, scheduled_carriers):
         self.scheduled_carriers = scheduled_carriers
@@ -19,6 +28,9 @@ class RoundInstance:
     def __str__(self):
         #return the rounds as letters instead of numbers
         return "".join([f"{chr(carrier + 64)}" for carrier in self.scheduled_carriers])
+
+    def to_dict(self):
+        return {"ScheduledCarriers": self.scheduled_carriers}
 
 class RoundSolution:
     def __init__(self, selected_colors):
@@ -72,3 +84,12 @@ class PSCP_Instance:
                 f"{roundDesc}\n"
                 f"{rounds_str}\n"
         )
+
+    def to_dict(self):
+        return {
+            "NumCarrierTypes": self.num_carrier_types,
+            "NumColors": self.num_colors,
+            "HistoryColor": self.history_color,
+            "Demands": [demand.to_dict() for demand in self.demands],
+            "Rounds": [round_.to_dict() for round_ in self.rounds]
+        }
