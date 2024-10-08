@@ -1,6 +1,6 @@
 # Paint Shop Coloring Problem
 
-This Python project focuses on developing an algorithm to solve the **Paint Shop Coloring Problem**, a well-known NP-problem. The goal is to build the solution step-by-step, improving the algorithm’s performance.
+This Python project focuses on developing different algorithms for the **Paint Shop Coloring Problem**, a well-known NP-problem. The goal is to build the solution step-by-step, improving the algorithm’s performance.
 
 ## Table of Contents
 
