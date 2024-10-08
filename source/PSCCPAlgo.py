@@ -1,11 +1,9 @@
 import json
 import sys
 
-from source.jsonIO.jsonRW import solution_to_json, instance_from_json, solution_from_json, load_json_file, \
-    write_json_file, instance_to_json
-from source.models.baseModels import PSCP_Solution
+from source.jsonIO.json_rw import solution_to_json, instance_from_json, solution_from_json, load_json_file, \
+    write_json_file
 from source.solvers.solutionGenerators import random_solution, demands_first, demands_reverse
-from source.solvers.solutionImprovers import local_reorder
 from source.validator.ownSolutionValidator import validate
 
 if __name__ == "__main__":

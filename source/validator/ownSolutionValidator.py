@@ -1,7 +1,7 @@
 import sys
 import json
 
-from source.jsonIO.jsonRW import instance_from_json, solution_from_json
+from source.jsonIO.json_rw import instance_from_json, solution_from_json
 
 
 def validate(instance, solution):
@@ -13,7 +13,7 @@ def validate(instance, solution):
     for dem_index,demand in enumerate(instance.demands):
         left_quantity = demand.quantity
 
-        #loop over each color in each rouund
+        #loop over each color in each round
         for rnd_index,rnd in enumerate(solution.round_solutions):
             for col_index,color in enumerate(rnd.selected_colors):
                 #check if current carrier is the carrier of the demand
@@ -21,7 +21,7 @@ def validate(instance, solution):
                     #if the color matches, one demand less
                     if color == demand.color and (rnd_index+1) <= demand.due_date:
                         left_quantity -= 1
-        #if some demands not (fully) fullfilled
+        #if some demands not (fully) fulfilled
         if left_quantity > 0:
             print(f"Demand {dem_index+1} is not fulfilled by {left_quantity}")
         demand_violations += 1 if left_quantity > 0 else 0
@@ -36,8 +36,7 @@ def validate(instance, solution):
     if demand_violations == 0:
         print("Solution is feasible")
     else:
-        print("Solution is infeasible!")
-        print(f"Demand violations: {demand_violations}")
+        print(f"Solution is infeasible. Total number of constraint violations: {demand_violations}")
     print(f"Total number of color changes used in the solution: {color_changes}")
 
 if __name__ == "__main__":

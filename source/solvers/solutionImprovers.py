@@ -23,7 +23,6 @@ def local_reorder(input_instance, solution):
                 if rounds[round_idx].scheduled_carriers[idx+1] == rounds[round_idx].scheduled_carriers[idx]:
                     continue
 
-
             for col in sorted(temp_colors):
                 solution.round_solutions[round_idx].selected_colors[start_idx] = col
                 start_idx += 1

@@ -21,7 +21,7 @@ def random_solution(input_instance):
 
     return PSCP_Solution([d for d in round_solutions])
 
-def demands_first(input_instance, use_old_color=False, priorize_old_color=False, priorize_due_date=False):
+def demands_first(input_instance, use_old_color=False, prioritize_old_color=False, prioritize_due_date=False):
     round_solutions = []
     all_demands = []
 
@@ -41,13 +41,13 @@ def demands_first(input_instance, use_old_color=False, priorize_old_color=False,
             dem_del = (0,0,0)
             filtered_demands = [d for d in all_demands if d[0] == current_carrier]
             if filtered_demands:
-                if priorize_old_color:
+                if prioritize_old_color:
                     earliest_deadline = min(filtered_demands, key=lambda d: d[2])[2]
                     filtered_demands = [d for d in filtered_demands if d[2] == earliest_deadline]
                     for dem in filtered_demands:
                         if dem[1] == temp_col:
                             dem_del = dem
-                    if dem_del == (0, 0, 0) and priorize_due_date:
+                    if dem_del == (0, 0, 0) and prioritize_due_date:
                         dem_del = filtered_demands[randint(0, len(filtered_demands) - 1)]
                         temp_col = dem_del[1]
 
@@ -111,8 +111,6 @@ def demands_reverse(input_instance):
             if selected_colors[ind] == -1:
                 selected_colors[ind] = selected_colors[ind-1]
         temp_col = selected_colors[0]
-
-
 
         round_number -= 1
         round_solution = RoundSolution(selected_colors)
