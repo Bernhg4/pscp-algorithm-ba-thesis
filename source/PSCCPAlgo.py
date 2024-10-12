@@ -5,6 +5,10 @@ from source.jsonIO.json_rw import solution_to_json, instance_from_json, solution
     write_json_file
 from source.solvers.solutionGenerators import random_solution, demands_first, demands_reverse, primitive_solution
 from source.validator.ownSolutionValidator import validate
+from test.data_generators.test_instance_generator import gen_tiny_instance1, gen_small_instance1, gen_medium_instance1, \
+    gen_big_instance1, gen_tiny_instance2, gen_small_instance2, gen_medium_instance2, gen_big_instance2
+from test.data_generators.test_solution_generator import gen_tiny_solution1, gen_small_solution1, gen_medium_solution1, \
+    gen_big_solution1, gen_tiny_solution2, gen_small_solution2, gen_medium_solution2, gen_big_solution2
 
 if __name__ == "__main__":
 
