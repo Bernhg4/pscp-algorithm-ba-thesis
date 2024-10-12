@@ -1,5 +1,52 @@
-from source.models.baseModels import RoundSolution, PSCP_Solution
+import copy
+import itertools
+from random import randint
 
+from source.models.baseModels import RoundSolution, PSCP_Solution
+from source.validator.ownSolutionValidator import internal_validate
+
+
+def primitive_local_improver(input_instance, solution):
+    rounds = input_instance.rounds
+    max_color = input_instance.num_colors
+
+    best_solution = copy.deepcopy(solution)
+    best_res = internal_validate(input_instance, solution)
+    run = 0
+    num_idx_changes = 1
+
+    #runs = sel_colors * num_colors * sel_colors(start at every color) * selected_colors
+
+    round_idx = 0
+    while round_idx < len(solution.round_solutions):
+        round_item = solution.round_solutions[round_idx]
+        max_count = len(round_item.selected_colors)
+
+        idx = 0
+        while idx < max_count:
+            sel_col_idx = idx
+            sel_color = round_item.selected_colors[sel_col_idx % max_count]
+            for c in range(1, max_color + 1, 1):
+                solution.round_solutions[round_idx].selected_colors[sel_col_idx % max_count] = ((sel_color + c) % max_color) + 1
+
+                run += 1
+                res = internal_validate(input_instance, solution)
+                if res[0] < best_res[0] or (res[0] == best_res[0] and res[1] < best_res[1]):
+                    best_res = copy.deepcopy(res)
+                    best_solution = copy.deepcopy(solution)
+                    print("New best solution: " + str(res[0]) + "_" + str(res[1]))
+                    print("run " + str(run) + ": " + str(res[0]) + "_" + str(res[1]))
+                    print(best_solution)
+                    return best_solution
+                    # break
+                #else:
+                #print("run " + str(run) + ": " + str(res[0]) + "_" + str(res[1]))
+                #print(solution)
+            idx += 1
+            solution = copy.deepcopy(best_solution)
+
+        round_idx += 1
+    return best_solution
 
 def local_reorder(input_instance, solution):
 

@@ -1,6 +1,9 @@
+import copy
+import itertools
 from random import randint
 
 from source.models.baseModels import RoundSolution, PSCP_Solution
+from source.validator.ownSolutionValidator import internal_validate
 
 
 def random_solution(input_instance):
@@ -117,3 +120,43 @@ def demands_reverse(input_instance):
         round_solutions.append(round_solution)
 
     return PSCP_Solution([d for d in reversed(round_solutions)])
+
+def primitive_solution(input_instance):
+    rounds = input_instance.rounds
+    max_color = input_instance.num_colors
+
+    solution = random_solution(input_instance)
+    best_solution = random_solution(input_instance)
+    best_res = internal_validate(input_instance, best_solution)
+    #run = 1
+
+    color_range = range(1,max_color+1,1)
+    round_combinations  = []
+
+    for round_idx,round_item in enumerate(solution.round_solutions):
+        sel_cols = round_item.selected_colors
+
+        possible_combinations = list(itertools.product(color_range, repeat=len(sel_cols)))
+        round_combinations.append(possible_combinations)
+
+    all_possible_combinations = itertools.product(*round_combinations)
+
+    # Create a new instance for each combination of all rounds
+    for combination_set in all_possible_combinations:
+        #new_instance = copy.deepcopy(instance)
+
+        # Assign the combination for each round
+        for i, combination in enumerate(combination_set):
+            solution.round_solutions[i].selected_colors = list(combination)
+            res = internal_validate(input_instance, solution)
+            if res[0] < best_res[0] or (res[0] == best_res[0] and res[1] < best_res[1]):
+                best_res = res
+                best_solution = copy.deepcopy(solution)
+                #print("New best solution: " + str(res[0]) + "_" + str(res[1]))
+                #print("run " + str(run) + ": " + str(res[0]) + "_" + str(res[1]))
+            #run += 1
+
+        # Add this new instance to the list of solutions
+        #all_solutions.append(new_instance)
+
+    return best_solution
