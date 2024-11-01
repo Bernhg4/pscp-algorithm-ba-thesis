@@ -5,9 +5,14 @@ from random import randint
 from source.models.baseModels import RoundSolution, PSCP_Solution
 from source.validator.ownSolutionValidator import internal_validate
 
+def run_improver(instance, solution, method, iteration_limit):
+    for i in range(iteration_limit):
+        solution = method(instance, solution)
 
+    return solution
+
+#first improvement
 def primitive_local_improver(input_instance, solution):
-    rounds = input_instance.rounds
     max_color = input_instance.num_colors
 
     best_solution = copy.deepcopy(solution)
@@ -78,6 +83,113 @@ def local_reorder(input_instance, solution):
             temp_colors = []
 
     return solution
+
+
+def __build_solution(groups):
+    pass
+
+
+def local_switch_groups(input_instance, solution):
+
+    best_solution = copy.deepcopy(solution)
+    best_result = internal_validate(input_instance, best_solution)
+
+    rounds = input_instance.rounds
+    run = 1
+    max_color = input_instance.num_colors
+
+    hist_col = input_instance.history_color
+    for round_idx,round_item in enumerate(solution.round_solutions):
+        max_idx = len(round_item.selected_colors)
+        groups = []
+
+        group_colors = []
+        temp_colors = []
+        last_col = -1
+        for idx,sel_color in enumerate(round_item.selected_colors):
+
+            if (idx+1) < max_idx and rounds[round_idx].scheduled_carriers[idx+1] == rounds[round_idx].scheduled_carriers[idx]:
+                if last_col == sel_color:
+                    temp_colors.append(sel_color)
+                else:
+                    if temp_colors:
+                        group_colors.append(temp_colors)
+                    temp_colors = [sel_color]
+                last_col = sel_color
+                continue
+
+            if last_col == sel_color:
+                temp_colors.append(sel_color)
+            else:
+                group_colors.append(temp_colors)
+                temp_colors = [sel_color]
+            group_colors.append(temp_colors)
+            groups.append(group_colors)
+            group_colors = []
+            temp_colors = []
+
+        grp_idx = 0
+        while grp_idx < len(groups):
+            curr_group = groups[grp_idx]
+
+            # switch groups carrier-internal
+            c_grp_idx = 0
+            while c_grp_idx < len(curr_group):
+                temp_col_grp = copy.deepcopy(curr_group[c_grp_idx])
+                curr_group[c_grp_idx] = curr_group[(grp_idx + 1) % len(curr_group)]
+                curr_group[(grp_idx + 1) % len(curr_group)] = temp_col_grp
+
+                new_round_sol = []
+                for sub_group in groups:
+                    for carrier in sub_group:
+                        for color in carrier:
+                            new_round_sol.append(color)
+
+                solution.round_solutions[round_idx] = RoundSolution(new_round_sol)
+
+                run += 1
+                res = internal_validate(input_instance, solution)
+                if res[0] < best_result[0] or (res[0] == best_result[0] and res[1] < best_result[1]):
+                    best_result = copy.deepcopy(res)
+                    best_solution = copy.deepcopy(solution)
+                    #print("New best solution: " + str(res[0]) + "_" + str(res[1]))
+                    #print("run " + str(run) + ": " + str(res[0]) + "_" + str(res[1]))
+                    #print(best_solution)
+                    return best_solution
+                c_grp_idx += 1
+                solution = copy.deepcopy(best_solution)
+
+            # change colors of whole groups
+            c_grp_idx = 0
+            while c_grp_idx < len(curr_group):
+
+                for c in range(1, max_color + 1, 1):
+                    temp_col_grp = copy.deepcopy(curr_group[c_grp_idx])
+                    curr_group[c_grp_idx] = [((x + c) % max_color) + 1 for x in temp_col_grp]
+
+                    new_round_sol = []
+                    for sub_group in groups:
+                        for carrier in sub_group:
+                            for color in carrier:
+                                new_round_sol.append(color)
+
+                    solution.round_solutions[round_idx] = RoundSolution(new_round_sol)
+
+                    run += 1
+                    res = internal_validate(input_instance, solution)
+                    if res[0] < best_result[0] or (res[0] == best_result[0] and res[1] < best_result[1]):
+                        best_result = copy.deepcopy(res)
+                        best_solution = copy.deepcopy(solution)
+                        #print("New best solution with change: " + str(res[0]) + "_" + str(res[1]))
+                        #print("run " + str(run) + ": " + str(res[0]) + "_" + str(res[1]))
+                        #print(best_solution)
+                        return best_solution
+                    solution = copy.deepcopy(best_solution)
+
+                c_grp_idx += 1
+            grp_idx += 1
+
+    return best_solution
 
 def local_switch(input_instance, solution):
 

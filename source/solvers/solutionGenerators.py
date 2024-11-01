@@ -156,7 +156,5 @@ def primitive_solution(input_instance):
                 #print("run " + str(run) + ": " + str(res[0]) + "_" + str(res[1]))
             #run += 1
 
-        # Add this new instance to the list of solutions
-        #all_solutions.append(new_instance)
 
     return best_solution

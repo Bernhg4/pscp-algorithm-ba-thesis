@@ -72,12 +72,12 @@ def gen_medium_instance1():
     demands = [
         Demand(10, 1, 1, 3),
         Demand(8, 2, 2, 3),
-        Demand(7,3 , 3, 3)
+        Demand(7, 3, 3, 3)
     ]
 
     ri_1 = RoundInstance([1, 1, 2, 2, 2, 1, 1])
-    ri_2 = RoundInstance([1, 1, 3, 3, 3, 3, 1, 2 ,2])
-    ri_3 = RoundInstance([2, 2, 2, 1, 3, 3, 3, 1 ,1])
+    ri_2 = RoundInstance([1, 1, 3, 3, 3, 3, 1, 2, 2])
+    ri_3 = RoundInstance([2, 2, 2, 1, 3, 3, 3, 1, 1])
 
     rounds = [ri_1, ri_2, ri_3]
 
