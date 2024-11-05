@@ -1,33 +1,115 @@
 import sys
 import json
+from itertools import chain
 
 from source.jsonIO.json_rw import instance_from_json, solution_from_json
 
-def internal_validate(instance, solution):
+
+def internal_validate_pos(instance, solution):
     demand_violations = 0
     color_changes = 0
 
+    # Track last color outside of rounds
     last_color = instance.history_color
-    #loop over the demands
-    for dem_index,demand in enumerate(instance.demands):
-        left_quantity = demand.quantity
 
-        #loop over each color in each round
-        for rnd_index,rnd in enumerate(solution.round_solutions):
-            for col_index,color in enumerate(rnd.selected_colors):
-                #check if current carrier is the carrier of the demand
-                if instance.rounds[rnd_index].scheduled_carriers[col_index] == demand.carrier_type:
-                    #if the color matches, one demand less
-                    if color == demand.color and (rnd_index+1) <= demand.due_date:
-                        left_quantity -= 1
-        demand_violations += left_quantity if left_quantity > 0 else 0
+    # Precompute each demand's carrier and color to reduce inner loop work
+    carrier_demands = {}
+    for demand in instance.demands:
+        if demand.carrier_type not in carrier_demands:
+            carrier_demands[demand.carrier_type] = []
+        carrier_demands[demand.carrier_type].append(demand)
 
-    #loop through the colors to get color changes
+    # Check demand violations by iterating over demands by carrier type
+    for carrier, demands in carrier_demands.items():
+        for demand in demands:
+            left_quantity = demand.quantity
+            for rnd_index, rnd in enumerate(solution.round_solutions):
+                if rnd_index + 1 > demand.due_date:
+                    break  # Skip rounds past the due date
+
+                # Check if the carrier and color match in this round
+                for col_index, color in enumerate(rnd.selected_colors):
+                    if instance.rounds[rnd_index].scheduled_carriers[col_index] == carrier:
+                        if color == demand.color:
+                            left_quantity -= 1
+                            if left_quantity == 0:
+                                break  # Demand met, exit early
+                if left_quantity == 0:
+                    break  # No further rounds needed for this demand
+
+            # Count demand violations if unmet
+            demand_violations += max(left_quantity, 0)
+
+    # Count color changes by comparing adjacent colors across rounds
     for rnd in solution.round_solutions:
         for color in rnd.selected_colors:
             if color != last_color:
                 color_changes += 1
                 last_color = color
+
+    return demand_violations, color_changes
+
+def internal_validate(instance, solution):
+    demand_violations = 0
+    color_changes = 0
+    last_color = instance.history_color
+
+    # Preprocess rounds to create a lookup for scheduled carriers by round and color index
+    scheduled_carriers = [
+        rnd.scheduled_carriers for rnd in instance.rounds
+    ]
+    # Iterate over demands and check fulfillment status
+    for demand in instance.demands:
+        left_quantity = demand.quantity
+        due_date = demand.due_date
+        demand_color = demand.color
+        carrier_type = demand.carrier_type
+
+        # Only iterate up to the demand's due date
+        for rnd_index, rnd in enumerate(solution.round_solutions[:due_date]):
+            round_carriers = scheduled_carriers[rnd_index]
+
+            # Check each color for the demand’s carrier type
+            for col_index, color in enumerate(rnd.selected_colors):
+                if round_carriers[col_index] == carrier_type:
+                    # If color matches, decrement left_quantity
+                    if color == demand_color:
+                        left_quantity -= 1
+                        # Exit if demand is fully met
+                        if left_quantity == 0:
+                            break
+            if left_quantity == 0:
+                break  # Exit early for this demand if it has been met
+
+        # Count unmet demands as violations
+        demand_violations += max(left_quantity, 0)
+
+    '''
+        #loop over the demands
+        for dem_index,demand in enumerate(instance.demands):
+            left_quantity = demand.quantity
+
+            #loop over each color in each round
+            for rnd_index,rnd in enumerate(solution.round_solutions):
+                for col_index,color in enumerate(rnd.selected_colors):
+                    #check if current carrier is the carrier of the demand
+                    if instance.rounds[rnd_index].scheduled_carriers[col_index] == demand.carrier_type:
+                        #if the color matches, one demand less
+                        if color == demand.color and (rnd_index+1) <= demand.due_date:
+                            left_quantity -= 1
+                        if left_quantity == 0:
+                            break
+            if left_quantity == 0:
+                break
+
+            demand_violations += left_quantity if left_quantity > 0 else 0
+    '''
+
+    #loop through the colors to get color changes
+    for color in chain.from_iterable(rnd.selected_colors for rnd in solution.round_solutions):
+        if color != last_color:
+            color_changes += 1
+            last_color = color
 
     return demand_violations, color_changes
 
@@ -49,8 +131,8 @@ def validate(instance, solution):
                     if color == demand.color and (rnd_index+1) <= demand.due_date:
                         left_quantity -= 1
         #if some demands not (fully) fulfilled
-        if left_quantity > 0:
-            print(f"Demand {dem_index+1} is not fulfilled by {left_quantity}")
+        #if left_quantity > 0:
+            #print(f"Demand {dem_index+1} is not fulfilled by {left_quantity}")
         demand_violations += 1 if left_quantity > 0 else 0
 
     #loop through the colors to get color changes
