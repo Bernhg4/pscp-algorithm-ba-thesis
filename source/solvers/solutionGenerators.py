@@ -1,13 +1,20 @@
 import copy
+import csv
 import itertools
-from random import randint
+import sys
+import time
+from collections import Counter
+from datetime import datetime
+from random import randint, random
 
 from source.models.baseModels import RoundSolution, PSCP_Solution
 from source.validator.ownSolutionValidator import internal_validate
 
+filename = ""
 
-def random_solution(input_instance):
+def random_solution(input_instance, time_limit_seconds):
     round_solutions = []
+    start_time = time.perf_counter()
 
     # loop over the rounds
     for round_ in input_instance.rounds:
@@ -22,11 +29,16 @@ def random_solution(input_instance):
 
         round_solutions.append(round_solution)
 
+        # check for time limit
+        if time.perf_counter() - start_time > time_limit_seconds:
+            return PSCP_Solution([d for d in round_solutions])
+
     return PSCP_Solution([d for d in round_solutions])
 
-def demands_first(input_instance, use_old_color=False, prioritize_old_color=False, prioritize_due_date=False):
+def demands_first(input_instance, time_limit_seconds, use_old_color=False, prioritize_old_color=False, prioritize_due_date=False):
     round_solutions = []
     all_demands = []
+    start_time = time.perf_counter()
 
     #document all demands
     for demand in input_instance.demands:
@@ -50,8 +62,11 @@ def demands_first(input_instance, use_old_color=False, prioritize_old_color=Fals
                     for dem in filtered_demands:
                         if dem[1] == temp_col:
                             dem_del = dem
+                        # check for time limit
+                        if time.perf_counter() - start_time > time_limit_seconds:
+                            return PSCP_Solution([d for d in round_solutions])
                     if dem_del == (0, 0, 0) and prioritize_due_date:
-                        dem_del = filtered_demands[randint(0, len(filtered_demands) - 1)]
+                        dem_del = filtered_demands[0]
                         temp_col = dem_del[1]
 
                 if dem_del == (0, 0, 0):
@@ -67,15 +82,20 @@ def demands_first(input_instance, use_old_color=False, prioritize_old_color=Fals
 
             selected_colors.append(temp_col)
 
+            # check for time limit
+            if time.perf_counter() - start_time > time_limit_seconds:
+                return PSCP_Solution([d for d in round_solutions])
+
         round_solution = RoundSolution(selected_colors)
 
         round_solutions.append(round_solution)
 
     return PSCP_Solution([d for d in round_solutions])
 
-def demands_reverse(input_instance):
+def demands_reverse(input_instance, time_limit_seconds):
     round_solutions = []
     all_demands = []
+    start_time = time.perf_counter()
 
     # document all demands
     for demand in input_instance.demands:
@@ -98,9 +118,12 @@ def demands_reverse(input_instance):
                 for dem in filtered_demands:
                     if dem[1] == temp_col:
                         dem_del = dem
+                    # check for time limit
+                    if time.perf_counter() - start_time > time_limit_seconds:
+                        return PSCP_Solution([d for d in reversed(round_solutions)])
 
                 if dem_del == (0, 0, 0):
-                    dem_del = filtered_demands[randint(0, len(filtered_demands) - 1)]
+                    dem_del = filtered_demands[0]
                     temp_col = dem_del[1]
 
             if dem_del != (0, 0, 0):
@@ -109,6 +132,10 @@ def demands_reverse(input_instance):
 
             selected_colors[col_ind] = temp_col
             col_ind -= 1
+
+            # check for time limit
+            if time.perf_counter() - start_time > time_limit_seconds:
+                return PSCP_Solution([d for d in reversed(round_solutions)])
 
         for ind in range(len(round_item.scheduled_carriers)):
             if selected_colors[ind] == -1:
@@ -121,6 +148,108 @@ def demands_reverse(input_instance):
 
     return PSCP_Solution([d for d in reversed(round_solutions)])
 
+def heuristic_solution(input_instance, time_limit_seconds, demand_look_ahead):
+    all_demands = []
+    start_time = time.perf_counter()
+
+    for demand in input_instance.demands:
+        for _ in range(demand.quantity):  # Repeat for the quantity
+            all_demands.append((demand.carrier_type, demand.color, demand.due_date))  # Append each tuple
+
+    # frequency for each demand in the list
+    second_value_counts = Counter(x[1] for x in all_demands)
+    # sort by due date, then by the lowest frequency
+    sorted_demands = sorted(all_demands, key=lambda x: (x[2], second_value_counts[x[1]]))
+
+    #fill up solutions with 0
+    round_solutions = []
+    for round_list in input_instance.rounds:
+        dummy_solution = []
+        for _ in round_list.scheduled_carriers:
+            dummy_solution.append(0)
+        round_solutions.append(RoundSolution(dummy_solution))
+
+    best_solution = round_solutions
+    while sorted_demands:
+        counter = 0
+        best_demand = (0,0,0)
+        best_cost = sys.maxsize
+
+
+        # go through x=look_ahead_demands
+        for demand in sorted_demands:
+            if counter == demand_look_ahead:
+                break
+
+            #best solution for this demand
+            cost_sol = __get_best_color_position(demand,input_instance,best_solution, start_time, time_limit_seconds)
+            cost = cost_sol[0]
+            sol = cost_sol[1]
+
+            # if overall best cost with this assignment, use this
+            if best_cost > cost:
+                best_cost = cost
+                best_solution = sol
+                best_demand = demand
+            counter += 1
+        if best_demand == (0, 0, 0):
+            break
+        sorted_demands.remove(best_demand)
+
+    # loop through remaining uncolored positions and assign the last used color
+    last_col = 0
+    for round_idx,round_item in enumerate(input_instance.rounds):
+        for carrier_idx,carrier_schedule in enumerate(round_item.scheduled_carriers):
+            if best_solution[round_idx].selected_colors[carrier_idx] != 0:
+                last_col = best_solution[round_idx].selected_colors[carrier_idx]
+                break
+
+    last_col = (1 if last_col == 0 else last_col) if input_instance.history_color==0 else input_instance.history_color
+    for round_idx,round_item in enumerate(input_instance.rounds):
+        for carrier_idx,carrier_schedule in enumerate(round_item.scheduled_carriers):
+            if best_solution[round_idx].selected_colors[carrier_idx] == 0:
+                best_solution[round_idx].selected_colors[carrier_idx] = last_col
+            else:
+                last_col = best_solution[round_idx].selected_colors[carrier_idx]
+
+    return PSCP_Solution([d for d in best_solution])
+
+def __get_best_color_position(demand, instance,solution, start_time, time_limit_seconds):
+    best_cost = sys.maxsize
+    best_solution = None
+
+    #only the scheduled carriers up to the due date are necessary
+    temp_rounds = instance.rounds[:demand[2]]
+
+    #loop from the back through the scheduled carriers
+    round_idx = len(temp_rounds)-1
+    for round_item in reversed(temp_rounds):
+        for idx in reversed(range(0,len(solution[round_idx].selected_colors),1)):
+
+            # if current position is right carrier and uncolored position
+            if instance.rounds[round_idx].scheduled_carriers[idx] == demand[0] and solution[round_idx].selected_colors[idx] == 0:
+                # apply color, check cost, undo
+                solution[round_idx].selected_colors[idx] = demand[1]
+                costs = internal_validate(instance,PSCP_Solution([d for d in solution]))
+                temp_solution = copy.deepcopy(solution)
+                solution[round_idx].selected_colors[idx] = 0
+
+                if costs[1] < best_cost:
+                    best_cost = costs[1]
+                    best_solution = temp_solution
+
+            # check for time limit
+            if time.perf_counter() - start_time > time_limit_seconds:
+                return best_cost, best_solution
+
+        round_idx -= 1
+
+    return best_cost, best_solution
+
+
+
+
+'''
 def primitive_solution(input_instance):
     rounds = input_instance.rounds
     max_color = input_instance.num_colors
@@ -158,3 +287,4 @@ def primitive_solution(input_instance):
 
 
     return best_solution
+'''
