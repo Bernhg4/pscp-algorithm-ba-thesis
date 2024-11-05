@@ -5,6 +5,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+#generations of data
+source/performance/plots/
+#source/performance/*.xlsx
+test/solvers/logging/
+source/performance/logging
+
 # C extensions
 *.so
 
