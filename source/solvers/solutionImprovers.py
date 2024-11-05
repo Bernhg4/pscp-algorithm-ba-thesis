@@ -1,24 +1,58 @@
 import copy
+import csv
 import itertools
+import time
+from datetime import datetime
+from fileinput import filename
 from random import randint
 
 from source.models.baseModels import RoundSolution, PSCP_Solution
 from source.validator.ownSolutionValidator import internal_validate
 
-def run_improver(instance, solution, method, iteration_limit):
-    for i in range(iteration_limit):
-        solution = method(instance, solution)
+filename = ""
+def init_logging(instance_name,algorithm):
+    global filename
+    filename = f"logging/ts_{instance_name}_{algorithm}_{datetime.now().strftime("%H_%M_%S")}.csv"
+    # Initialize the CSV file with headers if it doesn't already exist
+    with open(filename, mode="a", newline="") as file:
+        writer = csv.writer(file, delimiter=";")
+        # Check if the file is empty before writing the header
+        if file.tell() == 0:
+            #writer.writerow([f"Time series for {algorithm} with Instance {instance_name}"])
+            writer.writerow(["Timestamp","Violations", "Changes"])  # headers
 
-    return solution
+def run_improver(instance, solution, method, time_limit_seconds):
+    old_res = internal_validate(instance, solution)
+    #old_sol = copy.deepcopy(solution)
 
-#first improvement
-def primitive_local_improver(input_instance, solution):
+    start = time.perf_counter()
+    while True:
+        solution = method(instance, solution, start, time_limit_seconds)
+
+        # check for time limit
+        if time.perf_counter() - start > time_limit_seconds:
+            return solution
+
+        val_sol = internal_validate(instance, solution)
+        if old_res[0] == val_sol[0] and old_res[1] == val_sol[1]:
+            return solution
+        else:
+            old_res = copy.deepcopy(val_sol)
+
+
+
+def primitive_first_improver(input_instance, solution, start_time, time_limit_seconds):
     max_color = input_instance.num_colors
 
+    #best_solution = solution
     best_solution = copy.deepcopy(solution)
     best_res = internal_validate(input_instance, solution)
     run = 0
     num_idx_changes = 1
+
+    # check for time limit
+    if time.perf_counter() - start_time > time_limit_seconds:
+        return best_solution
 
     #runs = sel_colors * num_colors * sel_colors(start at every color) * selected_colors
 
@@ -35,23 +69,99 @@ def primitive_local_improver(input_instance, solution):
                 solution.round_solutions[round_idx].selected_colors[sel_col_idx % max_count] = ((sel_color + c) % max_color) + 1
 
                 run += 1
+                #check for time limit
+                if time.perf_counter() - start_time > time_limit_seconds:
+                    return best_solution
+
                 res = internal_validate(input_instance, solution)
                 if res[0] < best_res[0] or (res[0] == best_res[0] and res[1] < best_res[1]):
+                    #best_res = res
                     best_res = copy.deepcopy(res)
+                    #best_solution = solution
                     best_solution = copy.deepcopy(solution)
-                    print("New best solution: " + str(res[0]) + "_" + str(res[1]))
-                    print("run " + str(run) + ": " + str(res[0]) + "_" + str(res[1]))
-                    print(best_solution)
+                    #print("New first solution: " + str(res[0]) + "_" + str(res[1]))
+                    #print("run " + str(run) + ": " + str(res[0]) + "_" + str(res[1]))
+                    #print(best_solution)
+                    log_data_point([best_res[0],best_res[1]])
+
                     return best_solution
                     # break
                 #else:
                 #print("run " + str(run) + ": " + str(res[0]) + "_" + str(res[1]))
                 #print(solution)
             idx += 1
-            solution = copy.deepcopy(best_solution)
+            #solution.round_solutions = best_solution.round_solutions
+            #solution = copy.deepcopy(best_solution)
 
         round_idx += 1
+
+    log_data_point([best_res[0],best_res[1]])
     return best_solution
+
+def primitive_best_improver(input_instance, solution, start_time, time_limit_seconds):
+    max_color = input_instance.num_colors
+
+    #best_solution = solution
+    best_solution = copy.deepcopy(solution)
+    best_res = internal_validate(input_instance, solution)
+    #old_res = internal_validate(input_instance, solution)
+    run = 0
+    num_idx_changes = 1
+
+    # check for time limit
+    if time.perf_counter() - start_time > time_limit_seconds:
+        return best_solution
+
+    #runs = sel_colors * num_colors * sel_colors(start at every color) * selected_colors
+
+    round_idx = 0
+    while round_idx < len(solution.round_solutions):
+        round_item = solution.round_solutions[round_idx]
+        max_count = len(round_item.selected_colors)
+
+        idx = 0
+        while idx < max_count:
+            sel_col_idx = idx
+            sel_color = round_item.selected_colors[sel_col_idx % max_count]
+            for c in range(1, max_color + 1, 1):
+                solution.round_solutions[round_idx].selected_colors[sel_col_idx % max_count] = ((sel_color + c) % max_color) + 1
+
+                run += 1
+                # check for time limit
+                if time.perf_counter() - start_time > time_limit_seconds:
+                    log_data_point([best_res[0],best_res[1]])
+                    return best_solution
+
+                res = internal_validate(input_instance, solution)
+                if res[0] < best_res[0] or (res[0] == best_res[0] and res[1] < best_res[1]):
+                    #best_res = res
+                    best_res = copy.deepcopy(res)
+                    #best_solution = solution
+                    best_solution = copy.deepcopy(solution)
+                    #return best_solution
+                    # break
+                #else:
+                #print("run " + str(run) + ": " + str(res[0]) + "_" + str(res[1]))
+                #print(solution)
+            idx += 1
+            #solution = copy.deepcopy(best_solution)
+
+        round_idx += 1
+
+    #if best_res[0] < old_res[0] or (best_res[0] == old_res[0] and best_res[1] < old_res[1]):
+        #print("New best solution: " + str(best_res[0]) + "_" + str(best_res[1]))
+        #print(best_solution)
+    log_data_point([best_res[0],best_res[1]])
+    return best_solution
+
+
+def log_data_point(line):
+    timestamp = datetime.now()
+
+    with open(filename, mode="a", newline="") as file:
+        writer = csv.writer(file, delimiter=";")
+        writer.writerow([timestamp] + line)
+        file.flush()
 
 def local_reorder(input_instance, solution):
 
