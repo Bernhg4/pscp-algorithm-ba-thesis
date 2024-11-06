@@ -29,26 +29,26 @@ def test_performance():
                       '../../data/PSCCP_Instance5.json',
                       '../../data/PSCCP_Instance6.json',
                       '../../data/PSCCP_Instance7.json',
-                      #'../../data/instance1.json',
-                      #'../../data/instance2.json',
-                      #'../../data/instance3.json',
-                      #'../../data/instance4.json',
-                      #'../../data/instance5.json',
-                      #'../../data/instance6.json',
-                      #'../../data/instance7.json',
-                      #'../../data/instance8.json',
-                      #'../../data/instance9.json',
-                      #'../../data/instance10.json',
-                      #'../../data/instance11.json',
-                      #'../../data/ToyInstance_ok.json'
+                      '../../data/instance1.json',
+                      '../../data/instance2.json',
+                      '../../data/instance3.json',
+                      '../../data/instance4.json',
+                      '../../data/instance5.json',
+                      '../../data/instance6.json',
+                      '../../data/instance7.json',
+                      '../../data/instance8.json',
+                      '../../data/instance9.json',
+                      '../../data/instance10.json',
+                      '../../data/instance11.json',
+                      '../../data/ToyInstance_ok.json'
                       ]
 
     algorithms_det = [
-        #("Heuristic", heur_sol),
+        ("Heuristic", heur_sol),
         ("DF oc", df_oc_sol),
         ("DF oc,prio", df_oc_prio_sol),
-        #("DF oc,prio,dd", df_oc_prio_dd_sol),
-        #("DR", dr_sol)
+        ("DF oc,prio,dd", df_oc_prio_dd_sol),
+        ("DR", dr_sol)
     ]
 
     algorithms_sto = [
@@ -67,7 +67,7 @@ def test_performance():
         instances.append((os.path.splitext(os.path.basename(instance_file))[0], instance_from_json(instance_data)))
         #instances.append(("I" + str(idx + 1), instance_from_json(instance_data)))
 
-    max_run_time_minutes = 5
+    max_run_time_minutes = 10
     used_seed = randint(1000,10000)
     random.seed(used_seed)
 
@@ -120,10 +120,6 @@ def test_performance():
             result = ResultDet((res[0],res[1],execution_time),algo[0],instance[0],"deterministic")
 
             results.append(result)
-
-    #print("Results")
-    # r in results:
-    #    print(r)
 
     export_results_avg(results, max_run_time_minutes,used_seed,True)
     export_results_avg(results, max_run_time_minutes,used_seed, False)
@@ -269,11 +265,11 @@ def export_results_avg(results, time_limit_min, seed, quality):
                     col_indexes = [position + 1]
 
                 if r.method == "deterministic":
-                    output[position] = f"{re[2]/60}"
+                    output[position] = f"{round(re[2]/60,2)}"
                 elif r.method == "stochastic":
                     sd = r.get_stand_dev()
-                    output[position] = f"{re[2]/60}"
-                    output[position + 1] = f"{sd[2]/60}"
+                    output[position] = f"{round(re[2]/60,2)}"
+                    output[position + 1] = f"{round(sd[2]/60,2)}"
 
         sheet.append(output)
         for x in col_indexes:
@@ -344,7 +340,7 @@ def export_results_best(results, time_limit_min, seed,quality):
                 if re[2] < best_res[2]:
                     best_res = (re[0], re[1], re[2])
                     col_indexes = [position + 1]
-                output[position] = f"{re[2]}"
+                output[position] = f"{round(re[2]/60,2)}"
 
 
 
