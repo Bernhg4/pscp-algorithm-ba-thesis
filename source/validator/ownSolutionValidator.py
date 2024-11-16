@@ -81,6 +81,9 @@ def internal_validate(instance, solution):
             if left_quantity == 0:
                 break  # Exit early for this demand if it has been met
 
+        #if left_quantity > 0:
+            #print(f"Demand Carr:{demand.carrier_type},Col:{demand.color},Due:{demand.due_date},Qty:{demand.quantity} violated")
+
         # Count unmet demands as violations
         demand_violations += max(left_quantity, 0)
 
@@ -112,6 +115,98 @@ def internal_validate(instance, solution):
             last_color = color
 
     return demand_violations, color_changes
+
+def delta_validation_start(instance, solution):
+
+    demand_violations = 0
+    color_changes = 0
+    last_color = instance.history_color
+
+    # Preprocess rounds to create a lookup for scheduled carriers by round and color index
+    scheduled_carriers = [
+        rnd.scheduled_carriers for rnd in instance.rounds
+    ]
+
+    all_demands = []
+    for demand in instance.demands:
+        all_demands.append((demand.carrier_type, demand.color, demand.due_date, demand.quantity, 0))  # Append each tuple
+
+    checked_demands = []
+
+    # Iterate over demands and check fulfillment status
+    for demand in all_demands:
+        left_quantity = demand[3]
+        due_date = demand[2]
+        demand_color = demand[1]
+        carrier_type = demand[0]
+        # Only iterate up to the demand's due date
+        for rnd_index, rnd in enumerate(solution.round_solutions[:due_date]):
+            round_carriers = scheduled_carriers[rnd_index]
+            # Check each color for the demand’s carrier type
+            for col_index, color in enumerate(rnd.selected_colors):
+                if round_carriers[col_index] == carrier_type:
+                    # If color matches, decrement left_quantity
+                    if color == demand_color:
+                        left_quantity -= 1
+
+        demand_violations += max(left_quantity, 0)
+        checked_demands.append((demand[0], demand[1], demand[2], demand[3], left_quantity))
+
+    # loop through the colors to get color changes
+    for color in chain.from_iterable(rnd.selected_colors for rnd in solution.round_solutions):
+        if color != last_color:
+            color_changes += 1
+            last_color = color
+
+    return checked_demands, color_changes, demand_violations
+
+def delta_color_changes(instance, old_solution, new_solution, round_index, color_index):
+
+    hist_color = instance.history_color
+
+    new_color = new_solution.round_solutions[round_index].selected_colors[color_index]
+    old_color = old_solution.round_solutions[round_index].selected_colors[color_index]
+
+    max_item_index = len(new_solution.round_solutions[round_index].selected_colors)-1
+    max_round_index = len(new_solution.round_solutions)-1
+
+    old_changes = 0
+    new_changes = 0
+
+    if round_index == max_round_index and color_index == max_item_index:
+        old_changes = 1 if old_solution.round_solutions[round_index].selected_colors[color_index - 1] != old_color else 0
+        new_changes = 1 if new_solution.round_solutions[round_index].selected_colors[color_index - 1] != new_color else 0
+    elif color_index == max_item_index:
+        old_changes = 1 if old_solution.round_solutions[round_index].selected_colors[color_index - 1] != old_color else 0
+        new_changes = 1 if new_solution.round_solutions[round_index].selected_colors[color_index - 1] != new_color else 0
+
+        old_changes += 1 if old_solution.round_solutions[round_index + 1].selected_colors[0] != old_color else 0
+        new_changes += 1 if new_solution.round_solutions[round_index + 1].selected_colors[0] != new_color else 0
+
+    if round_index == 0 and color_index == 0:
+        old_changes = 1 if old_solution.round_solutions[round_index].selected_colors[color_index + 1] != old_color else 0
+        new_changes = 1 if new_solution.round_solutions[round_index].selected_colors[color_index + 1] != new_color else 0
+
+        old_changes += 1 if hist_color != old_color else 0
+        new_changes += 1 if hist_color != new_color else 0
+    elif color_index == 0:
+        old_changes = 1 if old_solution.round_solutions[round_index].selected_colors[color_index + 1] != old_color else 0
+        new_changes = 1 if new_solution.round_solutions[round_index].selected_colors[color_index + 1] != new_color else 0
+
+        old_changes += 1 if old_solution.round_solutions[round_index - 1].selected_colors[
+                                len(old_solution.round_solutions[round_index - 1].selected_colors) - 1] != old_color else 0
+        new_changes += 1 if new_solution.round_solutions[round_index - 1].selected_colors[
+                                len(new_solution.round_solutions[round_index - 1].selected_colors) - 1] != new_color else 0
+
+    if color_index != 0 and color_index != max_item_index:
+        old_changes = 1 if old_solution.round_solutions[round_index].selected_colors[color_index - 1] != old_color else 0
+        new_changes = 1 if new_solution.round_solutions[round_index].selected_colors[color_index - 1] != new_color else 0
+
+        old_changes += 1 if old_solution.round_solutions[round_index].selected_colors[color_index + 1] != old_color else 0
+        new_changes += 1 if new_solution.round_solutions[round_index].selected_colors[color_index + 1] != new_color else 0
+
+    return new_changes-old_changes
+
 
 def validate(instance, solution):
     demand_violations = 0
