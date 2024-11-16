@@ -148,7 +148,7 @@ def demands_reverse(input_instance, time_limit_seconds):
 
     return PSCP_Solution([d for d in reversed(round_solutions)])
 
-def heuristic_solution(input_instance, time_limit_seconds, demand_look_ahead):
+def heuristic_solution_old(input_instance, time_limit_seconds, demand_look_ahead):
     all_demands = []
     start_time = time.perf_counter()
 
@@ -214,6 +214,80 @@ def heuristic_solution(input_instance, time_limit_seconds, demand_look_ahead):
 
     return PSCP_Solution([d for d in best_solution])
 
+def heuristic_solution(input_instance, time_limit_seconds, demand_look_ahead):
+    all_demands = []
+    start_time = time.perf_counter()
+
+    for demand in input_instance.demands:
+        all_demands.append((demand.carrier_type, demand.color, demand.due_date, demand.quantity))  # Append each tuple
+
+    # frequency for each demand in the list
+    #second_value_counts = Counter(x[1] for x in all_demands)
+    # sort by due date, then by the lowest frequency
+    sorted_demands = sorted(all_demands, key=lambda x: (x[2], x[3]))
+
+    #fill up solutions with 0
+    round_solutions = []
+    for round_list in input_instance.rounds:
+        dummy_solution = []
+        for _ in round_list.scheduled_carriers:
+            dummy_solution.append(0)
+        round_solutions.append(RoundSolution(dummy_solution))
+
+    quit_flag = False
+    best_solution = round_solutions
+    while sorted_demands and not quit_flag:
+        counter = 0
+        best_demand = (0,0,0)
+        best_cost = sys.maxsize
+
+        # go through x=look_ahead_demands
+        for demand in sorted_demands:
+            if counter == demand_look_ahead:
+                break
+
+            #best solution for this demand
+            cost_sol = __get_best_color_position(demand,input_instance,best_solution, start_time, time_limit_seconds)
+            cost = cost_sol[0]
+            sol = cost_sol[1]
+            quit_flag = cost_sol[2]
+
+            # check for time limit
+            if quit_flag:
+                break
+
+            # if overall best cost with this assignment, use this
+            if best_cost > cost:
+                best_cost = cost
+                best_solution = sol
+                best_demand = demand
+            counter += 1
+        if best_demand == (0, 0, 0):
+            break
+
+        idx = sorted_demands.index(best_demand)
+        sorted_demands[idx] = (best_demand[0],best_demand[1],best_demand[2],best_demand[3]-1)
+        if  sorted_demands[idx][3] < 1:
+            sorted_demands.pop(idx)
+
+    # loop through remaining uncolored positions and assign the last used color
+    last_col = 0
+    for round_idx,round_item in enumerate(input_instance.rounds):
+        for carrier_idx,carrier_schedule in enumerate(round_item.scheduled_carriers):
+            if best_solution[round_idx].selected_colors[carrier_idx] != 0:
+                last_col = best_solution[round_idx].selected_colors[carrier_idx]
+                break
+
+    last_col = (1 if last_col == 0 else last_col) if input_instance.history_color==0 else input_instance.history_color
+    for round_idx,round_item in enumerate(input_instance.rounds):
+        for carrier_idx,carrier_schedule in enumerate(round_item.scheduled_carriers):
+            if best_solution[round_idx].selected_colors[carrier_idx] == 0:
+                best_solution[round_idx].selected_colors[carrier_idx] = last_col
+            else:
+                last_col = best_solution[round_idx].selected_colors[carrier_idx]
+
+    return PSCP_Solution([d for d in best_solution])
+
 def __get_best_color_position(demand, instance,solution, start_time, time_limit_seconds):
     best_cost = sys.maxsize
     best_solution = None
@@ -240,11 +314,11 @@ def __get_best_color_position(demand, instance,solution, start_time, time_limit_
 
             # check for time limit
             if time.perf_counter() - start_time > time_limit_seconds:
-                return best_cost, best_solution
+                return best_cost, best_solution, True
 
         round_idx -= 1
 
-    return best_cost, best_solution
+    return best_cost, best_solution, False
 
 
 
