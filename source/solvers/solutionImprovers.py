@@ -7,12 +7,12 @@ from fileinput import filename
 from random import randint
 
 from source.models.baseModels import RoundSolution, PSCP_Solution
-from source.validator.ownSolutionValidator import internal_validate
+from source.validator.ownSolutionValidator import internal_validate, delta_color_changes, delta_validation_start
 
 filename = ""
 def init_logging(instance_name,algorithm):
     global filename
-    filename = f"logging/ts_{instance_name}_{algorithm}_{datetime.now().strftime("%H_%M_%S")}.csv"
+    filename = f'logging/ts_{instance_name}_{algorithm}_{datetime.now().strftime("%H_%M_%S")}.csv'
     # Initialize the CSV file with headers if it doesn't already exist
     with open(filename, mode="a", newline="") as file:
         writer = csv.writer(file, delimiter=";")
@@ -41,7 +41,7 @@ def run_improver(instance, solution, method, time_limit_seconds):
 
 
 
-def primitive_first_improver(input_instance, solution, start_time, time_limit_seconds):
+def primitive_first_improver(input_instance, solution, start_time, time_limit_seconds, debug_delta_changes=False):
     max_color = input_instance.num_colors
 
     #best_solution = solution
@@ -49,6 +49,15 @@ def primitive_first_improver(input_instance, solution, start_time, time_limit_se
     best_res = internal_validate(input_instance, solution)
     run = 0
     num_idx_changes = 1
+
+    init_res = delta_validation_start(input_instance, solution)
+    checked_demands = init_res[0]
+    color_changes = init_res[1]
+    demand_violations = init_res[2]
+
+    #print(f"inits: full={best_res[0]}/{best_res[1]} delta={demand_violations}/{color_changes}")
+    if best_res[1] == 191:
+        pass
 
     # check for time limit
     if time.perf_counter() - start_time > time_limit_seconds:
@@ -65,38 +74,95 @@ def primitive_first_improver(input_instance, solution, start_time, time_limit_se
         while idx < max_count:
             sel_col_idx = idx
             sel_color = round_item.selected_colors[sel_col_idx % max_count]
-            for c in range(1, max_color + 1, 1):
-                solution.round_solutions[round_idx].selected_colors[sel_col_idx % max_count] = ((sel_color + c) % max_color) + 1
+            carrier = input_instance.rounds[round_idx].scheduled_carriers[idx]
 
+
+            for c in range(1, max_color+1, 1):
+                new_color = ((sel_color + c - 1) % max_color) + 1
                 run += 1
+
+                solution.round_solutions[round_idx].selected_colors[sel_col_idx % max_count] = new_color
+
+                if idx == 8 and round_idx == 7 and c == 5:
+                    pass
+
+                if debug_delta_changes:
+                    # check demand change
+                    demand_violation_change = 0
+                    old_demand = [x for x in checked_demands if x[0] == carrier and x[1] == sel_color]
+                    new_demand = [x for x in checked_demands if x[0] == carrier and x[1] == new_color]
+
+                    if old_demand:
+                        #old_demand = old_demand[0]
+                        #demand_violation_change += 1 if old_demand[4] >= 0 else 0
+                        for od in old_demand:
+                            demand_violation_change += 1 if od[4] >= 0 else 0
+                    if new_demand:
+                        #new_demand = new_demand[0]
+                        #demand_violation_change += -1 if new_demand[4] > 0 else 0
+                        for nd in new_demand:
+                            demand_violation_change += -1 if nd[4] > 0 else 0
+
+                    # check color changes
+                    delta_cc = delta_color_changes(input_instance, best_solution, solution, round_idx, idx)
+                    if demand_violation_change < 0 or (demand_violation_change == 0) and delta_cc < 0:
+                        color_changes += delta_cc
+                        demand_violations += demand_violation_change
+                        best_solution = copy.deepcopy(solution)
+                        log_data_point([demand_violations, color_changes])
+                        if new_demand:
+                            #inde = checked_demands.index(new_demand)
+                            #checked_demands[checked_demands.index(new_demand)] = (
+                            #new_demand[0], new_demand[1], new_demand[2], new_demand[3], new_demand[4] - 1)
+                            for nd in new_demand:
+                                checked_demands[checked_demands.index(nd)] = (
+                                    nd[0], nd[1], nd[2], nd[3], nd[4] - 1)
+                        if old_demand:
+                            #oinde = checked_demands.index(old_demand)
+                            #checked_demands[checked_demands.index(old_demand)] = (
+                            #    old_demand[0], old_demand[1], old_demand[2], old_demand[3], old_demand[4] + 1)
+                            for od in old_demand:
+                                checked_demands[checked_demands.index(od)] = (
+                                    od[0], od[1], od[2], od[3], od[4] + 1)
+
+                        #print(f"{run}_delta: ({demand_violations}/{color_changes})")
+                        return best_solution
+
+                if not debug_delta_changes:
+                    res = internal_validate(input_instance, solution)
+                    #temp_delta_res = delta_validation_start(input_instance, solution)
+                    #dvs = temp_delta_res[2]
+                    #ccs = temp_delta_res[1]
+
+                    if res[0] < best_res[0] or (res[0] == best_res[0] and res[1] < best_res[1]):
+                        best_res = copy.deepcopy(res)
+                        best_solution = copy.deepcopy(solution)
+                        log_data_point([best_res[0], best_res[1]])
+
+                        #print(f"{run}_full: ({res[0]}/{res[1]})")
+                        return best_solution
+
                 #check for time limit
                 if time.perf_counter() - start_time > time_limit_seconds:
                     return best_solution
 
-                res = internal_validate(input_instance, solution)
-                if res[0] < best_res[0] or (res[0] == best_res[0] and res[1] < best_res[1]):
-                    #best_res = res
-                    best_res = copy.deepcopy(res)
-                    #best_solution = solution
-                    best_solution = copy.deepcopy(solution)
-                    #print("New first solution: " + str(res[0]) + "_" + str(res[1]))
-                    #print("run " + str(run) + ": " + str(res[0]) + "_" + str(res[1]))
-                    #print(best_solution)
-                    log_data_point([best_res[0],best_res[1]])
+            #solution.round_solutions[round_idx].selected_colors[sel_col_idx % max_count] = sel_color
 
-                    return best_solution
-                    # break
-                #else:
-                #print("run " + str(run) + ": " + str(res[0]) + "_" + str(res[1]))
-                #print(solution)
             idx += 1
             #solution.round_solutions = best_solution.round_solutions
             #solution = copy.deepcopy(best_solution)
 
         round_idx += 1
 
-    log_data_point([best_res[0],best_res[1]])
+    if debug_delta_changes:
+        log_data_point([demand_violations, color_changes])
+    else:
+        log_data_point([best_res[0],best_res[1]])
     return best_solution
+
+def primitive_first_improver_delta(input_instance, solution, start_time, time_limit_seconds, debug_delta_changes=False):
+    return primitive_first_improver(input_instance, solution, start_time, time_limit_seconds, True)
+
 
 def primitive_best_improver(input_instance, solution, start_time, time_limit_seconds):
     max_color = input_instance.num_colors
@@ -104,9 +170,10 @@ def primitive_best_improver(input_instance, solution, start_time, time_limit_sec
     #best_solution = solution
     best_solution = copy.deepcopy(solution)
     best_res = internal_validate(input_instance, solution)
-    #old_res = internal_validate(input_instance, solution)
+    init_changes = best_res[1]
+    init_violations = best_res[0]
+
     run = 0
-    num_idx_changes = 1
 
     # check for time limit
     if time.perf_counter() - start_time > time_limit_seconds:
@@ -143,6 +210,8 @@ def primitive_best_improver(input_instance, solution, start_time, time_limit_sec
                 #else:
                 #print("run " + str(run) + ": " + str(res[0]) + "_" + str(res[1]))
                 #print(solution)
+                if best_res[0] == init_violations-1 and best_res[1] == init_changes-2:
+                    return best_solution
             idx += 1
             #solution = copy.deepcopy(best_solution)
 
