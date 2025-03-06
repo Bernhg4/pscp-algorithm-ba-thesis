@@ -31,6 +31,11 @@ class ResultSto:
         color_changes = [x[1] for x in self.results]
         time_seconds = [x[2] for x in self.results]
 
+        if len(demand_violations) == 1:
+            average_tuple = (demand_violations[0], color_changes[0], time_seconds[0])
+            self.stddev_tuple = (0,0,0)
+            return average_tuple
+
         # Calculate the average for each position
         average_violations = round(statistics.mean(demand_violations),2)
         average_changes = round(statistics.mean(color_changes),2)
@@ -41,12 +46,8 @@ class ResultSto:
         stddev_changes = round(statistics.stdev(color_changes),2)
         stddev_time = round(statistics.stdev(time_seconds),3)
 
-        # Display the results
         average_tuple = (average_violations, average_changes, average_time)
         self.stddev_tuple = (stddev_violations, stddev_changes, stddev_time)
-
-        #print("Average:", average_tuple)
-        #print("Standard Deviation:", stddev_tuple)
 
         return average_tuple
 

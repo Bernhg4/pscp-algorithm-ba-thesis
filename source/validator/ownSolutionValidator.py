@@ -5,7 +5,7 @@ from itertools import chain
 from source.jsonIO.json_rw import instance_from_json, solution_from_json
 
 
-def internal_validate_pos(instance, solution):
+def internal_validate_old(instance, solution):
     demand_violations = 0
     color_changes = 0
 
@@ -81,32 +81,8 @@ def internal_validate(instance, solution):
             if left_quantity == 0:
                 break  # Exit early for this demand if it has been met
 
-        #if left_quantity > 0:
-            #print(f"Demand Carr:{demand.carrier_type},Col:{demand.color},Due:{demand.due_date},Qty:{demand.quantity} violated")
-
         # Count unmet demands as violations
         demand_violations += max(left_quantity, 0)
-
-    '''
-        #loop over the demands
-        for dem_index,demand in enumerate(instance.demands):
-            left_quantity = demand.quantity
-
-            #loop over each color in each round
-            for rnd_index,rnd in enumerate(solution.round_solutions):
-                for col_index,color in enumerate(rnd.selected_colors):
-                    #check if current carrier is the carrier of the demand
-                    if instance.rounds[rnd_index].scheduled_carriers[col_index] == demand.carrier_type:
-                        #if the color matches, one demand less
-                        if color == demand.color and (rnd_index+1) <= demand.due_date:
-                            left_quantity -= 1
-                        if left_quantity == 0:
-                            break
-            if left_quantity == 0:
-                break
-
-            demand_violations += left_quantity if left_quantity > 0 else 0
-    '''
 
     #loop through the colors to get color changes
     for color in chain.from_iterable(rnd.selected_colors for rnd in solution.round_solutions):
@@ -173,6 +149,8 @@ def delta_color_changes(instance, old_solution, new_solution, round_index, color
     old_changes = 0
     new_changes = 0
 
+    #verify_single_block_execution(round_index,color_index,max_round_index,max_item_index)
+
     if round_index == max_round_index and color_index == max_item_index:
         old_changes = 1 if old_solution.round_solutions[round_index].selected_colors[color_index - 1] != old_color else 0
         new_changes = 1 if new_solution.round_solutions[round_index].selected_colors[color_index - 1] != new_color else 0
@@ -207,6 +185,27 @@ def delta_color_changes(instance, old_solution, new_solution, round_index, color
 
     return new_changes-old_changes
 
+
+def verify_single_block_execution(round_index, color_index, max_round_index, max_item_index):
+    executed_blocks = []
+
+    if round_index == max_round_index and color_index == max_item_index:
+        executed_blocks.append("last round, last color")
+
+    elif color_index == max_item_index:
+        executed_blocks.append("last color, not last round")
+
+    if round_index == 0 and color_index == 0:
+        executed_blocks.append("first round, first color")
+
+    elif color_index == 0:
+        executed_blocks.append("first color, not first round")
+
+    if color_index != 0 and color_index != max_item_index:
+        executed_blocks.append("middle color")
+
+    assert len(executed_blocks) == 1, f"Multiple blocks executed: {executed_blocks}"
+    return executed_blocks[0]
 
 def validate(instance, solution):
     demand_violations = 0
